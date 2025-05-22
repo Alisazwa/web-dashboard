@@ -1,27 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather Dashboard</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Weather Dashboard</title>
+  <!-- Bootstrap CSS CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- FontAwesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    body {
+      background-color: #f0f8ff;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .container {
+      padding-top: 2rem;
+    }
+    footer {
+      margin-top: 4rem;
+      padding: 1rem 0;
+      text-align: center;
+      color: #6c757d;
+    }
+    .nav-link:hover {
+      color: #0d6efd !important;
+      font-weight: 600;
+    }
+  </style>
 </head>
 <body>
-    <nav>
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="weather.html">Weather Dashboard</a></li>
-            <li><a href="crypto.html">Crypto Dashboard</a></li>
-        </ul>
+
+  <div class="container">
+    <!-- Navigation -->
+    <nav class="mb-4">
+      <a href="index.html" class="btn btn-outline-primary">
+        <i class="fas fa-arrow-left"></i> Back to Home
+      </a>
     </nav>
-    <main>
-        <h2>Weather Dashboard</h2>
-        <input type="text" id="cityInput" placeholder="Enter city name">
-        <button onclick="getWeather()">Get Weather</button>
-        <div id="weatherResult"></div>
-        <canvas id="weatherChart" width="400" height="200"></canvas>
-    </main>
-    <script src="js/weather.js"></script>
+
+    <header class="mb-4 text-center">
+      <h1>Weather Dashboard</h1>
+      <p class="lead">Real-time weather data visualization using public API</p>
+    </header>
+
+    <!-- Chart container -->
+    <canvas id="weatherChart" width="400" height="200"></canvas>
+
+    <!-- Data filtering/search (placeholder) -->
+    <div class="mt-4">
+      <label for="cityInput" class="form-label">Search City:</label>
+      <input type="text" id="cityInput" class="form-control" placeholder="Enter city name" />
+      <button id="fetchBtn" class="btn btn-primary mt-2">Get Weather</button>
+    </div>
+  </div>
+
+  <footer>
+    <small>© 2025 Alis Azwa | Web Dashboard Project</small>
+  </footer>
+
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    const ctx = document.getElementById('weatherChart').getContext('2d');
+    let weatherChart;
+
+    // Sample data for initial load (dummy data)
+    const sampleLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const sampleTemps = [22, 25, 20, 18, 24, 27, 23];
+
+    function createChart(labels, data) {
+      if (weatherChart) {
+        weatherChart.destroy();
+      }
+      weatherChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Temperature (°C)',
+            data: data,
+            fill: false,
+            borderColor: 'rgb(13, 110, 253)',
+            tension: 0.3
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: false,
+              suggestedMin: 10,
+              suggestedMax: 40
+            }
+          }
+        }
+      });
+    }
+
+    // Initialize with sample data
+    createChart(sampleLabels, sampleTemps);
+
+    // Fetch real weather data function (to be implemented)
+    async function fetchWeather(city) {
+      const apiKey = 'YOUR_OPENWEATHERMAP_API_KEY'; // Replace with your OpenWeather API key
+      const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`;
+
+      try {
+        const response = await fetch(url);
+        if (!response.ok) {
+          alert('City not found or API error');
+          return;
+        }
+        const data = await response.json();
+        // Process data to get daily temps (simplified example)
+        const dailyTemps = [];
+        const dailyLabels = [];
+
+        // Extract data for next 7 days (simplified)
+        for (let i = 0; i < data.list.length; i += 8) {
+          const item = data.list[i];
+          dailyTemps.push(item.main.temp);
+          const date = new Date(item.dt * 1000);
+          dailyLabels.push(date.toLocaleDateString('en-US', { weekday: 'short' }));
+        }
+
+        createChart(dailyLabels, dailyTemps);
+
+      } catch (error) {
+        alert('Error fetching weather data');
+        console.error(error);
+      }
+    }
+
+    // Event listeners
+    document.getElementById('fetchBtn').addEventListener('click', () => {
+      const city = document.getElementById('cityInput').value.trim();
+      if (city) {
+        fetchWeather(city);
+      } else {
+        alert('Please enter a city name');
+      }
+    });
+  </script>
 </body>
 </html>
