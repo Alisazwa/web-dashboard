@@ -10,98 +10,175 @@
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
   />
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
     body {
-      background: linear-gradient(135deg, #11998e, #38ef7d);
-      color: #fff;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: #f0f4f8;
+      font-family: 'Montserrat', sans-serif;
       min-height: 100vh;
+      margin: 0;
+      padding: 0;
       display: flex;
       flex-direction: column;
-      margin: 0;
-      padding: 1rem;
+      align-items: center;
     }
+
+    /* Back home button */
+    .btn-back {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: rgba(255 255 255 / 0.15);
+      color: #f0f4f8;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 25px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      z-index: 1000;
+      text-decoration: none;
+    }
+    .btn-back:hover,
+    .btn-back:focus {
+      background: rgba(255 255 255 / 0.3);
+      outline: none;
+      transform: scale(1.1);
+    }
+
     main {
-      max-width: 720px;
-      margin: 3rem auto;
-      background-color: rgba(0,0,0,0.45);
-      border-radius: 15px;
-      padding: 2rem;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.6);
+      max-width: 800px;
+      width: 90%;
+      background-color: rgba(10, 32, 63, 0.85);
+      border-radius: 20px;
+      margin: 5rem auto 3rem auto;
+      padding: 2.5rem 2rem 3rem 2rem;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
     }
+
     h1 {
-      font-weight: 700;
-      font-size: 2.8rem;
-      margin-bottom: 1rem;
+      font-weight: 800;
+      font-size: 3rem;
       text-align: center;
-      letter-spacing: 1.3px;
+      margin-bottom: 0.3rem;
+      letter-spacing: 2px;
+      color: #a2d2ff;
+      text-shadow: 0 0 10px #4a90e2;
     }
+
     p.description {
       text-align: center;
-      font-size: 1.1rem;
-      margin-bottom: 2rem;
-      color: #d1f2eb;
+      font-size: 1.25rem;
+      margin-bottom: 2.5rem;
+      color: #c7d2fe;
+      font-weight: 500;
     }
+
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit,minmax(160px,1fr));
-      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
+      gap: 1.8rem;
     }
+
     .card {
-      background-color: rgba(255,255,255,0.15);
-      border-radius: 12px;
-      padding: 1.5rem 1.8rem;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+      background: linear-gradient(145deg, #273c75, #192a56);
+      border-radius: 18px;
+      padding: 2rem 1.8rem;
+      box-shadow:
+        4px 4px 10px rgba(0, 0, 0, 0.7),
+        -4px -4px 10px rgba(255, 255, 255, 0.05);
       text-align: center;
-      transition: background-color 0.3s ease;
+      color: #e9f1ff;
       cursor: default;
+      user-select: none;
+      transition: transform 0.25s ease, box-shadow 0.3s ease;
+      position: relative;
+      overflow: hidden;
     }
-    .card:hover {
-      background-color: rgba(255,255,255,0.25);
+    .card:hover,
+    .card:focus {
+      transform: translateY(-10px);
+      box-shadow:
+        6px 6px 20px rgba(0, 0, 0, 0.9),
+        -6px -6px 20px rgba(255, 255, 255, 0.12);
+      outline: none;
     }
     .card i {
-      font-size: 2.8rem;
-      margin-bottom: 0.5rem;
-      color: #81e6d9;
+      font-size: 3.2rem;
+      margin-bottom: 0.6rem;
+      color: #53c28b;
+      filter: drop-shadow(0 0 6px #53c28b);
+      transition: color 0.3s ease;
+    }
+    .card:hover i,
+    .card:focus i {
+      color: #1ed760;
+      filter: drop-shadow(0 0 8px #1ed760);
     }
     .card h3 {
-      margin: 0.2rem 0 0.6rem;
+      margin: 0.3rem 0 1rem 0;
       font-weight: 700;
-      font-size: 1.6rem;
+      font-size: 1.8rem;
+      letter-spacing: 0.05rem;
     }
     .card p {
-      font-size: 1.05rem;
-      font-weight: 600;
-      color: #d4f4e6;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #d6f8e6;
       margin: 0;
+      user-select: text;
     }
+
     footer {
       text-align: center;
-      color: #b0e0d6cc;
-      padding: 1rem 0;
+      color: #89aaffaa;
       font-size: 0.9rem;
+      padding-bottom: 1.2rem;
       user-select: none;
       font-weight: 500;
-      margin-top: auto;
     }
+
     @media (max-width: 480px) {
       main {
-        margin: 2rem 1rem;
-        padding: 1.5rem 1rem;
+        margin: 4rem 1rem 2rem 1rem;
+        padding: 1.8rem 1rem 2.5rem 1rem;
       }
       h1 {
-        font-size: 2rem;
+        font-size: 2.2rem;
+      }
+      .stats-grid {
+        grid-template-columns: repeat(auto-fit,minmax(140px,1fr));
+        gap: 1.3rem;
+      }
+      .card {
+        padding: 1.4rem 1rem;
+      }
+      .card h3 {
+        font-size: 1.3rem;
+      }
+      .card p {
+        font-size: 1rem;
       }
     }
   </style>
 </head>
 <body>
+  <a href="index.html" class="btn-back" aria-label="Back to Home">
+    <i class="fas fa-arrow-left"></i> Back Home
+  </a>
+
   <main role="main" aria-label="Healthcare statistics dashboard">
     <h1 tabindex="0">Healthcare Statistics</h1>
     <p class="description" tabindex="0">
-      Live Global COVID-19 Statistics from Disease.sh API — updated every time you visit.
+      Live Global COVID-19 Statistics powered by Disease.sh API — always up to date.
     </p>
 
-    <div class="stats-grid" id="stats">
+    <div class="stats-grid" id="stats" aria-live="polite" aria-atomic="true">
       <!-- Stats cards will be inserted here by JavaScript -->
     </div>
   </main>
@@ -111,7 +188,6 @@
   </footer>
 
   <script>
-    // Icons for each stat type
     const icons = {
       cases: 'fas fa-virus',
       deaths: 'fas fa-skull-crossbones',
@@ -123,7 +199,6 @@
       todayDeaths: 'fas fa-calendar-times',
     };
 
-    // Fetch global COVID-19 data
     async function fetchCovidData() {
       try {
         const response = await fetch('https://disease.sh/v3/covid-19/all');
@@ -132,22 +207,22 @@
 
         displayStats(data);
       } catch (error) {
-        document.getElementById('stats').innerHTML = `<p style="color:#ff6b6b; text-align:center;">Unable to load data. Please try again later.</p>`;
+        document.getElementById('stats').innerHTML = `
+          <p style="color:#ff6b6b; text-align:center; font-weight:700;">
+            Unable to load data. Please try again later.
+          </p>`;
         console.error(error);
       }
     }
 
-    // Format number with commas
     function formatNumber(num) {
       return num.toLocaleString();
     }
 
-    // Display the statistics cards
     function displayStats(data) {
       const statsContainer = document.getElementById('stats');
       statsContainer.innerHTML = '';
 
-      // Define which data to show and titles
       const statsToShow = [
         { key: 'cases', label: 'Total Cases' },
         { key: 'deaths', label: 'Total Deaths' },
@@ -177,7 +252,6 @@
       });
     }
 
-    // Load data on page load
     fetchCovidData();
   </script>
 </body>
