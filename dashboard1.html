@@ -1,119 +1,290 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Super Weather Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- FontAwesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
   <style>
     body {
       background: linear-gradient(to right, #dbeafe, #ffffff);
       font-family: 'Segoe UI', sans-serif;
       padding: 2rem;
     }
-    .weather-card {
-      border-radius: 1rem;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-      padding: 1.5rem;
-      text-align: center;
-      background-color: #fff;
-      transition: transform 0.3s;
+    .navbar-custom {
+      margin-bottom: 1.5rem;
     }
-    .weather-card:hover {
-      transform: scale(1.03);
+    /* Back Home Button */
+    .back-home {
+      margin-bottom: 1.5rem;
     }
-    .weather-icon {
-      width: 80px;
-      height: 80px;
-      margin-bottom: 10px;
+    /* Search input group */
+    .search-group {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
     }
-    .temp {
-      font-size: 1.5rem;
-      font-weight: bold;
+    .search-group input {
+      max-width: 300px;
     }
-    .desc {
-      text-transform: capitalize;
-      font-size: 1rem;
-      color: #555;
-    }
-    .card-row {
+    /* Weather cards styling */
+    .weather-cards {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 1rem;
-      margin-top: 2rem;
+      margin-bottom: 2rem;
     }
-    .icon-label {
+    .weather-card {
+      background-color: #fff;
+      border-radius: 1rem;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      padding: 1rem;
+      text-align: center;
+      width: 150px;
+      transition: transform 0.3s;
+    }
+    .weather-card:hover {
+      transform: scale(1.05);
+    }
+    .weather-card img {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 0.5rem;
+    }
+    .weather-card .day {
+      font-weight: bold;
+      margin-bottom: 0.3rem;
+    }
+    .weather-card .temp {
+      font-size: 1.3rem;
+      font-weight: bold;
+      margin-bottom: 0.3rem;
+    }
+    .weather-card .desc {
+      text-transform: capitalize;
       font-size: 0.9rem;
-      color: #777;
-      margin-top: 0.3rem;
+      color: #555;
+    }
+    /* Chart container styling */
+    .chart-container {
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+    footer {
+      margin-top: 2rem;
+      text-align: center;
+      color: #666;
     }
   </style>
 </head>
 <body>
+  
+  <!-- Navigation & Back Home Button -->
+  <div class="container">
+    <div class="back-home">
+      <a href="index.html" class="btn btn-outline-primary">
+        <i class="fas fa-arrow-left"></i> Back to Home
+      </a>
+    </div>
+  
+    <!-- Header -->
+    <header class="text-center mb-4">
+      <h1 class="display-5">🌤️ Super Weather Dashboard</h1>
+      <p class="lead">Real-time forecast with vivid insights</p>
+    </header>
 
-<h1 class="text-center mb-4">🌤️ Super Weather Dashboard</h1>
-<div class="d-flex justify-content-center mb-4">
-  <input type="text" id="cityInput" class="form-control w-50 me-2" placeholder="Enter city name">
-  <button id="fetchBtn" class="btn btn-primary">Search</button>
-</div>
+    <!-- Search Group -->
+    <div class="search-group">
+      <input type="text" id="cityInput" class="form-control" placeholder="Enter city name" />
+      <button id="fetchBtn" class="btn btn-primary">
+        <i class="fas fa-search"></i> Search
+      </button>
+    </div>
+    
+    <!-- Weather Cards Display -->
+    <div id="weatherCards" class="weather-cards">
+      <!-- Kad cuaca akan dimuatkan di sini -->
+    </div>
+    
+    <!-- Temperature Chart Display -->
+    <div class="chart-container">
+      <canvas id="weatherChart" height="100"></canvas>
+    </div>
+  </div>
+  
+  <footer>
+    <small>© 2025 Alis Azwa | Super Weather Dashboard</small>
+  </footer>
+  
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script>
+    // Global variables
+    const weatherCardsDiv = document.getElementById('weatherCards');
+    const ctx = document.getElementById('weatherChart').getContext('2d');
+    let weatherChart;
 
-<div id="weatherDisplay" class="card-row"></div>
-
-<script>
-  const weatherDisplay = document.getElementById('weatherDisplay');
-
-  const weatherIcons = {
-    'Clear': 'https://cdn-icons-png.flaticon.com/512/869/869869.png',
-    'Clouds': 'https://cdn-icons-png.flaticon.com/512/1163/1163624.png',
-    'Rain': 'https://cdn-icons-png.flaticon.com/512/1163/1163620.png',
-    'Snow': 'https://cdn-icons-png.flaticon.com/512/642/642102.png',
-    'Thunderstorm': 'https://cdn-icons-png.flaticon.com/512/1146/1146869.png',
-    'Drizzle': 'https://cdn-icons-png.flaticon.com/512/4005/4005901.png',
-    'Mist': 'https://cdn-icons-png.flaticon.com/512/4005/4005800.png',
-    'Haze': 'https://cdn-icons-png.flaticon.com/512/1197/1197102.png'
-  };
-
-  document.getElementById('fetchBtn').addEventListener('click', () => {
-    const city = document.getElementById('cityInput').value.trim();
-    if (!city) return alert("Please enter a city name.");
-    fetchWeather(city);
-  });
-
-  async function fetchWeather(city) {
-    const apiKey = '75662820bbc41704ee577bf1ebe9aab8';
-    const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`;
-    try {
-      const res = await fetch(url);
-      const data = await res.json();
-      displayWeather(data.list);
-    } catch (err) {
-      alert("City not found!");
+    // Fungsi untuk membuat carta
+    function createChart(labels, data) {
+      if (weatherChart) {
+        weatherChart.destroy();
+      }
+      weatherChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Temperature (°C)',
+            data: data,
+            backgroundColor: 'rgba(13, 110, 253, 0.2)',
+            borderColor: 'rgb(13, 110, 253)',
+            fill: true,
+            tension: 0.4,
+            pointBackgroundColor: '#0d6efd'
+          }]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: {
+              beginAtZero: false,
+              suggestedMin: 0,
+              suggestedMax: 40
+            }
+          }
+        }
+      });
     }
-  }
 
-  function displayWeather(list) {
-    weatherDisplay.innerHTML = '';
-    for (let i = 0; i < list.length; i += 8) {
-      const item = list[i];
-      const date = new Date(item.dt_txt).toLocaleDateString('en-MY', { weekday: 'short', day: 'numeric', month: 'short' });
-      const temp = item.main.temp.toFixed(1);
-      const desc = item.weather[0].main;
-      const detailed = item.weather[0].description;
+    // Ikon cuaca (gunakan URL SVG atau PNG warna-warni)
+    const weatherIcons = {
+      'Clear': 'https://cdn-icons-png.flaticon.com/512/869/869869.png',
+      'Clouds': 'https://cdn-icons-png.flaticon.com/512/1163/1163624.png',
+      'Rain': 'https://cdn-icons-png.flaticon.com/512/1163/1163620.png',
+      'Snow': 'https://cdn-icons-png.flaticon.com/512/642/642102.png',
+      'Thunderstorm': 'https://cdn-icons-png.flaticon.com/512/1146/1146869.png',
+      'Drizzle': 'https://cdn-icons-png.flaticon.com/512/4005/4005901.png',
+      'Mist': 'https://cdn-icons-png.flaticon.com/512/4005/4005800.png',
+      'Haze': 'https://cdn-icons-png.flaticon.com/512/1197/1197102.png'
+    };
 
-      const iconUrl = weatherIcons[desc] || 'https://cdn-icons-png.flaticon.com/512/869/869869.png';
+    // Fungsi untuk memaparkan kad cuaca dan data untuk carta
+    async function fetchWeather(city) {
+      const apiKey = '75662820bbc41704ee577bf1ebe9aab8';
+      const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`;
+      try {
+        const response = await fetch(url);
+        if (!response.ok) {
+          alert('City not found or API error.');
+          return;
+        }
+        const data = await response.json();
+        
+        // Array untuk carta
+        const chartTemps = [];
+        const chartLabels = [];
+        let cardsHTML = '';
+        
+        // Papar 5 hari (setiap 8 data kira-kira sehari)
+        for (let i = 0; i < data.list.length && i < 40; i += 8) {
+          const item = data.list[i];
+          const dateObj = new Date(item.dt * 1000);
+          const day = dateObj.toLocaleDateString('en-US', { weekday: 'short' });
+          const fullDate = dateObj.toLocaleDateString('en-US', { day: 'numeric', month: 'short' });
+          const temp = item.main.temp.toFixed(1);
+          const condition = item.weather[0].main;
+          const description = item.weather[0].description;
+          // Dapatkan ikon mengikut keadaan, fallback ke Clear jika tiada
+          const iconUrl = weatherIcons[condition] || weatherIcons['Clear'];
 
-      weatherDisplay.innerHTML += `
-        <div class="weather-card col-md-2">
-          <h5>${date}</h5>
-          <img src="${iconUrl}" alt="${desc}" class="weather-icon">
-          <div class="temp">${temp}°C</div>
-          <div class="desc">${detailed}</div>
-        </div>
-      `;
+          // Assembling card HTML
+          cardsHTML += `
+            <div class="weather-card">
+              <div class="day">${day}</div>
+              <small>${fullDate}</small>
+              <img src="${iconUrl}" alt="${description}" />
+              <div class="temp">${temp}°C</div>
+              <div class="desc">${description}</div>
+            </div>
+          `;
+          
+          // Simpan data untuk carta
+          chartTemps.push(temp);
+          chartLabels.push(day);
+        }
+        
+        // Paparkan kad cuaca
+        weatherCardsDiv.innerHTML = cardsHTML;
+        // Buat carta suhu
+        createChart(chartLabels, chartTemps);
+        
+      } catch (error) {
+        alert('Error fetching weather data.');
+        console.error(error);
+      }
     }
-  }
-</script>
 
+    // Event listener carian
+    document.getElementById('fetchBtn').addEventListener('click', () => {
+      const city = document.getElementById('cityInput').value.trim();
+      if (!city) {
+        alert('Please enter a city name.');
+        return;
+      }
+      fetchWeather(city);
+    });
+    
+    // Paparkan data dummy pada permulaan
+    createChart(['Mon', 'Tue', 'Wed', 'Thu', 'Fri'], [22, 25, 20, 24, 23]);
+    weatherCardsDiv.innerHTML = `
+      <div class="weather-card">
+        <div class="day">Mon</div>
+        <small>1 Jan</small>
+        <img src="https://cdn-icons-png.flaticon.com/512/869/869869.png" alt="clear" />
+        <div class="temp">22°C</div>
+        <div class="desc">clear sky</div>
+      </div>
+      <div class="weather-card">
+        <div class="day">Tue</div>
+        <small>2 Jan</small>
+        <img src="https://cdn-icons-png.flaticon.com/512/1163/1163624.png" alt="clouds" />
+        <div class="temp">25°C</div>
+        <div class="desc">few clouds</div>
+      </div>
+      <div class="weather-card">
+        <div class="day">Wed</div>
+        <small>3 Jan</small>
+        <img src="https://cdn-icons-png.flaticon.com/512/1163/1163620.png" alt="rain" />
+        <div class="temp">20°C</div>
+        <div class="desc">light rain</div>
+      </div>
+      <div class="weather-card">
+        <div class="day">Thu</div>
+        <small>4 Jan</small>
+        <img src="https://cdn-icons-png.flaticon.com/512/869/869869.png" alt="clear" />
+        <div class="temp">24°C</div>
+        <div class="desc">clear sky</div>
+      </div>
+      <div class="weather-card">
+        <div class="day">Fri</div>
+        <small>5 Jan</small>
+        <img src="https://cdn-icons-png.flaticon.com/512/642/642102.png" alt="snow" />
+        <div class="temp">23°C</div>
+        <div class="desc">snow</div>
+      </div>
+    `;
+  </script>
+  
 </body>
 </html>
