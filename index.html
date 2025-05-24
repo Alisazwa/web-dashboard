@@ -3,215 +3,154 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>My Dashboard - Home</title>
-  <!-- Bootstrap CSS CDN -->
+  <title>Main Dashboard - Nurul Alis Azwa</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <!-- FontAwesome for icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
-    /* Background Gradient */
     body {
-      background: linear-gradient(135deg, #4a90e2, #50e3c2);
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: #f0f0f0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       margin: 0;
-      color: #1a1a1a;
     }
-
-    /* Container */
-    .container {
+    main {
       flex-grow: 1;
-      max-width: 900px;
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 20px;
-      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+      max-width: 720px;
+      background-color: rgba(0,0,0,0.5);
       margin: 3rem auto;
-      padding: 3rem 2rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      padding: 2.5rem 2rem;
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.7);
       text-align: center;
     }
-
-    /* Header */
-    header h1 {
+    h1 {
       font-weight: 700;
-      text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+      font-size: 2.8rem;
       margin-bottom: 0.3rem;
+      letter-spacing: 1.5px;
     }
-    header p {
-      font-size: 1.3rem;
-      color: #555;
-      margin-bottom: 3rem;
+    p.subtitle {
+      font-size: 1.1rem;
       font-weight: 500;
+      margin-bottom: 3rem;
+      color: #b0c4de;
     }
-
-    /* Profile Section */
-    .profile-section {
-      background: #fff;
-      padding: 2rem 2.5rem;
-      border-radius: 15px;
-      box-shadow: 0 8px 20px rgba(74, 144, 226, 0.3);
-      max-width: 500px;
-      width: 100%;
-      margin-bottom: 4rem;
-    }
-    .profile-img {
-      width: 160px;
-      height: 160px;
+    img.profile-pic {
+      width: 150px;
+      height: 150px;
       border-radius: 50%;
-      border: 4px solid #4a90e2;
+      border: 3px solid #4dabf7;
       object-fit: cover;
-      margin: 0 auto 1.5rem;
-      display: block;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 0 15px #4dabf7aa;
       transition: transform 0.3s ease;
     }
-    .profile-img:hover,
-    .profile-img:focus {
-      transform: scale(1.05);
-      outline: none;
-      box-shadow: 0 0 10px #4a90e2;
+    img.profile-pic:hover {
+      transform: scale(1.07);
+      box-shadow: 0 0 25px #82c7ff;
     }
-    .profile-section h2 {
-      font-weight: 700;
-      color: #333;
-      margin-bottom: 0.25rem;
-      font-size: 1.9rem;
+    .profile-info {
+      margin-bottom: 3rem;
+      font-size: 1.2rem;
+      line-height: 1.5;
     }
-    .profile-section p {
-      color: #666;
-      font-size: 1.15rem;
-      font-weight: 500;
+    .profile-info strong {
+      color: #82c7ff;
     }
-
-    /* Dashboard Menu */
-    .dashboard-menu {
+    nav.dashboard-menu {
       display: flex;
       justify-content: center;
-      gap: 2rem;
+      gap: 1.8rem;
       flex-wrap: wrap;
-      max-width: 700px;
-      width: 100%;
     }
-    .dashboard-menu a {
-      flex: 1 1 280px;
-      max-width: 280px;
-      font-size: 1.25rem;
-      padding: 1.25rem 2rem;
-      border-radius: 50px;
-      box-shadow: 0 8px 15px rgba(0,0,0,0.15);
-      transition: all 0.3s ease;
+    nav.dashboard-menu a {
+      background-color: #4dabf7;
+      color: #fff;
+      font-weight: 600;
+      padding: 1rem 2.2rem;
+      border-radius: 40px;
+      box-shadow: 0 6px 18px #3a8ddecc;
+      text-decoration: none;
+      font-size: 1.2rem;
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 0.9rem;
-      font-weight: 600;
-      text-decoration: none;
+      gap: 0.8rem;
+      transition: background-color 0.25s ease, box-shadow 0.25s ease;
       user-select: none;
     }
-    /* Primary button (Weather) */
-    .btn-primary {
-      background: #4a90e2;
-      border: none;
-      color: white;
-    }
-    .btn-primary:hover,
-    .btn-primary:focus {
-      background: #357ABD;
-      box-shadow: 0 12px 20px rgba(53, 122, 189, 0.6);
-      transform: translateY(-3px);
+    nav.dashboard-menu a:hover,
+    nav.dashboard-menu a:focus {
+      background-color: #6bb4ff;
+      box-shadow: 0 10px 30px #64a1f5cc;
       outline: none;
     }
-    /* Success button (Crypto) */
-    .btn-success {
-      background: #50e3c2;
-      border: none;
-      color: #1a1a1a;
-      font-weight: 700;
+    nav.dashboard-menu a i {
+      font-size: 1.5rem;
     }
-    .btn-success:hover,
-    .btn-success:focus {
-      background: #36b59f;
-      box-shadow: 0 12px 20px rgba(54, 181, 159, 0.6);
-      color: white;
-      transform: translateY(-3px);
-      outline: none;
-    }
-
-    /* Icons */
-    .dashboard-menu i {
-      font-size: 1.7rem;
-    }
-
-    /* Footer */
     footer {
       text-align: center;
-      color: #ffffffcc;
-      padding: 1.2rem 0;
-      font-weight: 500;
+      color: #b0c4decc;
+      padding: 1rem 0;
       font-size: 0.9rem;
-      background: transparent;
-      margin-top: auto;
       user-select: none;
+      font-weight: 500;
     }
-
-    /* Responsive */
-    @media (max-width: 600px) {
-      .container {
-        margin: 1rem 1.2rem 2rem;
-        padding: 2rem 1.5rem;
+    @media (max-width: 480px) {
+      main {
+        margin: 2rem 1rem;
+        padding: 2rem 1.2rem;
       }
-      .dashboard-menu {
+      h1 {
+        font-size: 2rem;
+      }
+      nav.dashboard-menu {
         flex-direction: column;
       }
-      .dashboard-menu a {
-        max-width: 100%;
-      }
-      header h1 {
-        font-size: 1.8rem;
-      }
-      header p {
-        font-size: 1.1rem;
+      nav.dashboard-menu a {
+        width: 100%;
+        justify-content: center;
       }
     }
   </style>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
 </head>
 <body>
+  <main role="main" aria-label="Main dashboard page">
+    <h1 tabindex="0">Main Dashboard</h1>
+    <p class="subtitle">API & CI/CD Integration by Nurul Alis Azwa</p>
 
-  <main class="container" role="main" aria-label="Main Dashboard Page">
-    <!-- Header -->
-    <header class="mb-4">
-      <h1 tabindex="0">Welcome to My Dashboard</h1>
-      <p>Your gateway to live data with API integration & CI/CD</p>
-    </header>
+    <img
+      src="images/myphoto.jpg"
+      alt="Profile picture of Nurul Alis Azwa"
+      class="profile-pic"
+      tabindex="0"
+    />
 
-    <!-- Profile Section -->
-    <section class="profile-section" aria-labelledby="profile-name">
-      <img src="images/myphoto.jpg" alt="Profile picture of Nurul Alis Azwa" class="profile-img" tabindex="0" />
-      <h2 id="profile-name">Nurul Alis Azwa binti Hashim</h2>
-      <p>Internet Computing Student | Passionate about web development and data analytics</p>
-    </section>
+    <div class="profile-info" tabindex="0">
+      <p><strong>Name:</strong> Nurul Alis Azwa binti Hashim</p>
+      <p><strong>Matric Number:</strong> 072951</p>
+      <p><strong>Course:</strong> Bachelor of Computer Science (Internet Computing)</p>
+    </div>
 
-    <!-- Dashboard Menu -->
-    <nav class="dashboard-menu" aria-label="Dashboard navigation menu">
-      <a href="dashboard1.html" class="btn btn-primary" role="button" aria-describedby="weather-desc">
-        <i class="fas fa-cloud-sun" aria-hidden="true"></i>
-        <span id="weather-desc">Weather Dashboard</span>
+    <nav class="dashboard-menu" aria-label="Dashboard navigation">
+      <a href="dashboard1.html" role="button">
+        <i class="fas fa-cloud-sun"></i> Weather
       </a>
-      <a href="dashboard2.html" class="btn btn-success" role="button" aria-describedby="crypto-desc">
-        <i class="fas fa-chart-line" aria-hidden="true"></i>
-        <span id="crypto-desc">Crypto Dashboard</span>
+      <a href="dashboard2.html" role="button" style="background-color:#50e3c2; box-shadow:0 6px 18px #33c8aacc;">
+        <i class="fas fa-bitcoin"></i> Crypto
       </a>
     </nav>
   </main>
 
   <footer role="contentinfo">
-    <small>© 2025 Nurul Alis Azwa | Web Dashboard Project</small>
+    <small>© 2025 Nurul Alis Azwa | Dashboard Project</small>
   </footer>
 
-  <!-- Bootstrap JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
