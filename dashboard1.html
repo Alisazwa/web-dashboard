@@ -22,20 +22,19 @@
       text-align: center;
       color: #6c757d;
     }
-    .nav-link:hover {
-      color: #0d6efd !important;
-      font-weight: 600;
-    }
     .form-inline-group {
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
       justify-content: center;
       align-items: center;
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
     }
     .form-inline-group input {
       max-width: 300px;
+    }
+    #spinner {
+      display: none;
     }
   </style>
 </head>
@@ -51,14 +50,23 @@
 
     <header class="mb-4 text-center">
       <h1>Weather Dashboard</h1>
-      <p class="lead">Real-time weather data visualization using public API</p>
+      <p class="lead">Visualize 5-day forecast using OpenWeather API</p>
     </header>
 
-    <!-- Data filtering/search -->
+    <!-- Search bar -->
     <div class="form-inline-group">
       <input type="text" id="cityInput" class="form-control" placeholder="Enter city name" />
-      <button id="fetchBtn" class="btn btn-primary">Get Weather</button>
+      <button id="fetchBtn" class="btn btn-primary">
+        <span id="spinner" class="spinner-border spinner-border-sm me-1" role="status"></span>
+        Get Weather
+      </button>
     </div>
+
+    <!-- Message area -->
+    <div id="messageArea" class="mb-3"></div>
+
+    <!-- Display selected city -->
+    <div id="cityTitle" class="text-center mb-3 h5 text-muted"></div>
 
     <!-- Chart container -->
     <canvas id="weatherChart" width="400" height="200"></canvas>
@@ -74,8 +82,11 @@
     const ctx = document.getElementById('weatherChart').getContext('2d');
     let weatherChart;
 
-    const sampleLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-    const sampleTemps = [22, 25, 20, 18, 24, 27, 23];
+    function showMessage(type, text) {
+      const msgArea = document.getElementById('messageArea');
+      msgArea.innerHTML = `<div class="alert alert-${type}" role="alert">${text}</div>`;
+      setTimeout(() => msgArea.innerHTML = '', 4000);
+    }
 
     function createChart(labels, data) {
       if (weatherChart) {
@@ -88,17 +99,22 @@
           datasets: [{
             label: 'Temperature (°C)',
             data: data,
-            fill: false,
+            fill: true,
+            backgroundColor: 'rgba(13, 110, 253, 0.1)',
             borderColor: 'rgb(13, 110, 253)',
-            tension: 0.3
+            tension: 0.4,
+            pointBackgroundColor: '#0d6efd'
           }]
         },
         options: {
           responsive: true,
+          plugins: {
+            legend: { position: 'top' },
+          },
           scales: {
             y: {
               beginAtZero: false,
-              suggestedMin: 10,
+              suggestedMin: 0,
               suggestedMax: 40
             }
           }
@@ -106,20 +122,26 @@
       });
     }
 
-    createChart(sampleLabels, sampleTemps);
+    function toggleSpinner(show) {
+      document.getElementById('spinner').style.display = show ? 'inline-block' : 'none';
+    }
 
     async function fetchWeather(city) {
       const apiKey = '75662820bbc41704ee577bf1ebe9aab8';
       const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`;
 
+      toggleSpinner(true);
+      document.getElementById('cityTitle').textContent = '';
+
       try {
         const response = await fetch(url);
         if (!response.ok) {
-          alert('City not found or API error');
+          showMessage('danger', 'City not found. Please try another city name.');
+          toggleSpinner(false);
           return;
         }
-        const data = await response.json();
 
+        const data = await response.json();
         const dailyTemps = [];
         const dailyLabels = [];
 
@@ -131,21 +153,27 @@
         }
 
         createChart(dailyLabels, dailyTemps);
+        document.getElementById('cityTitle').textContent = `City: ${data.city.name}, ${data.city.country}`;
 
       } catch (error) {
-        alert('Error fetching weather data');
+        showMessage('danger', 'Error fetching weather data. Try again later.');
         console.error(error);
       }
+
+      toggleSpinner(false);
     }
 
     document.getElementById('fetchBtn').addEventListener('click', () => {
       const city = document.getElementById('cityInput').value.trim();
-      if (city) {
-        fetchWeather(city);
-      } else {
-        alert('Please enter a city name');
+      if (city === '') {
+        showMessage('warning', 'Please enter a city name.');
+        return;
       }
+      fetchWeather(city);
     });
+
+    // Load default chart
+    createChart(['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], [22, 25, 20, 18, 24, 27, 23]);
   </script>
 </body>
 </html>
