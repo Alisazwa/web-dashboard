@@ -65,15 +65,16 @@
   </style>
 </head>
 <body>
-  <a href="#" class="btn-back" aria-label="Back to Home">
+  <a href="index.html" class="btn-back" aria-label="Back to Home">
     <i class="fas fa-arrow-left"></i> Back Home
   </a>
 
   <div class="container text-center">
     <h1 class="mb-4">🌤️ Malaysia Weather Dashboard</h1>
-    <div class="row mb-4">
-      <div class="col-md-6 offset-md-3">
-        <input type="text" id="cityInput" class="form-control" placeholder="Enter Malaysian city name (e.g., Kuala Lumpur)" />
+    <div class="row mb-4 justify-content-center">
+      <div class="col-md-6 d-flex">
+        <input type="text" id="cityInput" class="form-control me-2" placeholder="Enter Malaysian city name (e.g., Kuala Lumpur)" />
+        <button id="searchBtn" class="btn btn-light">Search</button>
       </div>
     </div>
 
@@ -89,10 +90,16 @@
 
     document.getElementById('cityInput').addEventListener('keypress', function (e) {
       if (e.key === 'Enter') {
-        const city = e.target.value;
-        if (city) fetchWeatherData(city);
+        fetchCityWeather();
       }
     });
+
+    document.getElementById('searchBtn').addEventListener('click', fetchCityWeather);
+
+    function fetchCityWeather() {
+      const city = document.getElementById('cityInput').value;
+      if (city) fetchWeatherData(city);
+    }
 
     let forecastChart;
 
@@ -130,8 +137,10 @@
     }
 
     function displayForecastChart(data) {
-      const labels = data.list.map(item => item.dt_txt);
-      const temps = data.list.map(item => item.main.temp);
+      const today = new Date().toISOString().split('T')[0];
+      const todayData = data.list.filter(item => item.dt_txt.startsWith(today));
+      const labels = todayData.map(item => item.dt_txt.split(' ')[1]);
+      const temps = todayData.map(item => item.main.temp);
 
       const ctx = document.getElementById('forecastChart').getContext('2d');
       if (forecastChart) forecastChart.destroy();
