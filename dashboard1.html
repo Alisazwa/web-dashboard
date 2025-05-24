@@ -4,11 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Weather Dashboard</title>
-  <!-- Bootstrap CSS CDN -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <!-- FontAwesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <!-- Chart.js CDN -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
@@ -29,6 +26,17 @@
       color: #0d6efd !important;
       font-weight: 600;
     }
+    .form-inline-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+    .form-inline-group input {
+      max-width: 300px;
+    }
   </style>
 </head>
 <body>
@@ -46,29 +54,26 @@
       <p class="lead">Real-time weather data visualization using public API</p>
     </header>
 
+    <!-- Data filtering/search -->
+    <div class="form-inline-group">
+      <input type="text" id="cityInput" class="form-control" placeholder="Enter city name" />
+      <button id="fetchBtn" class="btn btn-primary">Get Weather</button>
+    </div>
+
     <!-- Chart container -->
     <canvas id="weatherChart" width="400" height="200"></canvas>
-
-    <!-- Data filtering/search (placeholder) -->
-    <div class="mt-4">
-      <label for="cityInput" class="form-label">Search City:</label>
-      <input type="text" id="cityInput" class="form-control" placeholder="Enter city name" />
-      <button id="fetchBtn" class="btn btn-primary mt-2">Get Weather</button>
-    </div>
   </div>
 
   <footer>
     <small>© 2025 Alis Azwa | Web Dashboard Project</small>
   </footer>
 
-  <!-- Bootstrap JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
   <script>
     const ctx = document.getElementById('weatherChart').getContext('2d');
     let weatherChart;
 
-    // Sample data for initial load (dummy data)
     const sampleLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     const sampleTemps = [22, 25, 20, 18, 24, 27, 23];
 
@@ -101,10 +106,8 @@
       });
     }
 
-    // Initialize with sample data
     createChart(sampleLabels, sampleTemps);
 
-    // Fetch real weather data function (to be implemented)
     async function fetchWeather(city) {
       const apiKey = '75662820bbc41704ee577bf1ebe9aab8';
       const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`;
@@ -116,11 +119,10 @@
           return;
         }
         const data = await response.json();
-        // Process data to get daily temps (simplified example)
+
         const dailyTemps = [];
         const dailyLabels = [];
 
-        // Extract data for next 7 days (simplified)
         for (let i = 0; i < data.list.length; i += 8) {
           const item = data.list[i];
           dailyTemps.push(item.main.temp);
@@ -136,7 +138,6 @@
       }
     }
 
-    // Event listeners
     document.getElementById('fetchBtn').addEventListener('click', () => {
       const city = document.getElementById('cityInput').value.trim();
       if (city) {
