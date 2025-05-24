@@ -3,8 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>My Dashboard - Nurul Alis Azwa</title>
+  <title>Main Dashboard - Nurul Alis Azwa</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
   <style>
     body {
       background: linear-gradient(135deg, #1e3c72, #2a5298);
@@ -52,12 +56,24 @@
       box-shadow: 0 0 25px #82c7ff;
     }
     .profile-info {
-      margin-bottom: 3rem;
-      font-size: 1.2rem;
+      margin-bottom: 2.5rem;
+      font-size: 1.15rem;
       line-height: 1.5;
+      color: #dce6f1;
     }
     .profile-info strong {
       color: #82c7ff;
+    }
+    .about-me {
+      background-color: rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 3rem;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      text-align: justify;
+      color: #e6e9f0;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
     }
     nav.dashboard-menu {
       display: flex;
@@ -114,15 +130,11 @@
       }
     }
   </style>
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-  />
 </head>
 <body>
   <main role="main" aria-label="Main dashboard page">
     <h1 tabindex="0">Main Dashboard</h1>
-    <p class="subtitle">API & CI/CD Integration by Nurul Alis Azwa</p>
+    <p class="subtitle">Live Data Dashboards by Nurul Alis Azwa</p>
 
     <img
       src="images/myphoto.jpg"
@@ -137,14 +149,26 @@
       <p><strong>Course:</strong> Bachelor of Computer Science (Internet Computing)</p>
     </div>
 
+    <section class="about-me" tabindex="0" aria-label="About Me section">
+      <p>
+        I am a dedicated computer science student specializing in Internet Computing.
+        Passionate about integrating real-time data and APIs to build insightful dashboards 
+        that help visualize complex data in simple, meaningful ways.
+        This project showcases two live dashboards powered by public APIs: Weather Monitoring and Healthcare Statistics.
+      </p>
+    </section>
+
     <nav class="dashboard-menu" aria-label="Dashboard navigation">
-      <a href="dashboard1.html" role="button">
-        <i class="fas fa-cloud-sun"></i> Weather
+      <a href="dashboard-weather.html" role="button" aria-describedby="weather-desc">
+        <i class="fas fa-cloud-sun"></i> Weather Monitoring
       </a>
-      <a href="dashboard2.html" role="button" style="background-color:#50e3c2; box-shadow:0 6px 18px #33c8aacc;">
-        <i class="fas fa-bitcoin"></i> Crypto
+      <a href="dashboard-healthcare.html" role="button" aria-describedby="healthcare-desc" style="background-color:#50e3c2; box-shadow:0 6px 18px #33c8aacc;">
+        <i class="fas fa-heartbeat"></i> Healthcare Statistics
       </a>
     </nav>
+
+    <div class="visually-hidden" id="weather-desc">Open the live Weather Monitoring dashboard</div>
+    <div class="visually-hidden" id="healthcare-desc">Open the live Healthcare Statistics dashboard</div>
   </main>
 
   <footer role="contentinfo">
