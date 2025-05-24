@@ -5,175 +5,179 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Weather Dashboard</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
   <style>
     body {
-      background-color: #f0f8ff;
+      background: linear-gradient(to right, #e0f7fa, #ffffff);
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     .container {
       padding-top: 2rem;
     }
     footer {
-      margin-top: 4rem;
-      padding: 1rem 0;
+      margin-top: 3rem;
       text-align: center;
       color: #6c757d;
     }
-    .form-inline-group {
+    .weather-info {
       display: flex;
+      justify-content: space-around;
       flex-wrap: wrap;
-      gap: 0.5rem;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 1.5rem;
+      margin-top: 2rem;
     }
-    .form-inline-group input {
-      max-width: 300px;
+    .card-weather {
+      background-color: #f8f9fa;
+      border-radius: 10px;
+      padding: 1rem;
+      width: 150px;
+      text-align: center;
+      margin: 0.5rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    #spinner {
-      display: none;
+    .card-weather img {
+      width: 50px;
+      height: 50px;
+    }
+    .temperature {
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+    .chart-container {
+      margin-top: 2rem;
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <!-- Navigation -->
-    <nav class="mb-4">
-      <a href="index.html" class="btn btn-outline-primary">
-        <i class="fas fa-arrow-left"></i> Back to Home
-      </a>
-    </nav>
+<div class="container">
+  <!-- Navigation -->
+  <nav class="mb-4">
+    <a href="index.html" class="btn btn-outline-primary">
+      <i class="fas fa-arrow-left"></i> Back to Home
+    </a>
+  </nav>
 
-    <header class="mb-4 text-center">
-      <h1>Weather Dashboard</h1>
-      <p class="lead">Visualize 5-day forecast using OpenWeather API</p>
-    </header>
+  <!-- Header -->
+  <header class="text-center mb-4">
+    <h1 class="display-5">🌦️ Weather Dashboard</h1>
+    <p class="lead">Real-time weather forecast with visual insights</p>
+  </header>
 
-    <!-- Search bar -->
-    <div class="form-inline-group">
-      <input type="text" id="cityInput" class="form-control" placeholder="Enter city name" />
-      <button id="fetchBtn" class="btn btn-primary">
-        <span id="spinner" class="spinner-border spinner-border-sm me-1" role="status"></span>
-        Get Weather
-      </button>
-    </div>
-
-    <!-- Message area -->
-    <div id="messageArea" class="mb-3"></div>
-
-    <!-- Display selected city -->
-    <div id="cityTitle" class="text-center mb-3 h5 text-muted"></div>
-
-    <!-- Chart container -->
-    <canvas id="weatherChart" width="400" height="200"></canvas>
+  <!-- Input -->
+  <div class="d-flex justify-content-center mb-3">
+    <input type="text" id="cityInput" class="form-control me-2" style="max-width: 300px;" placeholder="Enter city name" />
+    <button id="fetchBtn" class="btn btn-primary">Get Weather</button>
   </div>
 
-  <footer>
-    <small>© 2025 Alis Azwa | Web Dashboard Project</small>
-  </footer>
+  <!-- Forecast Cards -->
+  <div id="forecastCards" class="weather-info"></div>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Temperature Chart -->
+  <div class="chart-container">
+    <canvas id="weatherChart" height="100"></canvas>
+  </div>
+</div>
 
-  <script>
-    const ctx = document.getElementById('weatherChart').getContext('2d');
-    let weatherChart;
+<footer>
+  <small>© 2025 Alis Azwa | Enhanced Weather Dashboard</small>
+</footer>
 
-    function showMessage(type, text) {
-      const msgArea = document.getElementById('messageArea');
-      msgArea.innerHTML = `<div class="alert alert-${type}" role="alert">${text}</div>`;
-      setTimeout(() => msgArea.innerHTML = '', 4000);
+<script>
+  const ctx = document.getElementById('weatherChart').getContext('2d');
+  let weatherChart;
+
+  function createChart(labels, data) {
+    if (weatherChart) {
+      weatherChart.destroy();
     }
-
-    function createChart(labels, data) {
-      if (weatherChart) {
-        weatherChart.destroy();
-      }
-      weatherChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: labels,
-          datasets: [{
-            label: 'Temperature (°C)',
-            data: data,
-            fill: true,
-            backgroundColor: 'rgba(13, 110, 253, 0.1)',
-            borderColor: 'rgb(13, 110, 253)',
-            tension: 0.4,
-            pointBackgroundColor: '#0d6efd'
-          }]
+    weatherChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Temperature (°C)',
+          data: data,
+          backgroundColor: 'rgba(13, 110, 253, 0.2)',
+          borderColor: 'rgb(13, 110, 253)',
+          fill: true,
+          tension: 0.4
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: true }
         },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: { position: 'top' },
-          },
-          scales: {
-            y: {
-              beginAtZero: false,
-              suggestedMin: 0,
-              suggestedMax: 40
-            }
+        scales: {
+          y: {
+            beginAtZero: false,
+            suggestedMin: 10,
+            suggestedMax: 40
           }
         }
-      });
-    }
-
-    function toggleSpinner(show) {
-      document.getElementById('spinner').style.display = show ? 'inline-block' : 'none';
-    }
-
-    async function fetchWeather(city) {
-      const apiKey = '75662820bbc41704ee577bf1ebe9aab8';
-      const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`;
-
-      toggleSpinner(true);
-      document.getElementById('cityTitle').textContent = '';
-
-      try {
-        const response = await fetch(url);
-        if (!response.ok) {
-          showMessage('danger', 'City not found. Please try another city name.');
-          toggleSpinner(false);
-          return;
-        }
-
-        const data = await response.json();
-        const dailyTemps = [];
-        const dailyLabels = [];
-
-        for (let i = 0; i < data.list.length; i += 8) {
-          const item = data.list[i];
-          dailyTemps.push(item.main.temp);
-          const date = new Date(item.dt * 1000);
-          dailyLabels.push(date.toLocaleDateString('en-US', { weekday: 'short' }));
-        }
-
-        createChart(dailyLabels, dailyTemps);
-        document.getElementById('cityTitle').textContent = `City: ${data.city.name}, ${data.city.country}`;
-
-      } catch (error) {
-        showMessage('danger', 'Error fetching weather data. Try again later.');
-        console.error(error);
       }
+    });
+  }
 
-      toggleSpinner(false);
-    }
-
-    document.getElementById('fetchBtn').addEventListener('click', () => {
-      const city = document.getElementById('cityInput').value.trim();
-      if (city === '') {
-        showMessage('warning', 'Please enter a city name.');
+  async function fetchWeather(city) {
+    const apiKey = '75662820bbc41704ee577bf1ebe9aab8';
+    const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`;
+    try {
+      const res = await fetch(url);
+      if (!res.ok) {
+        alert('City not found or API error');
         return;
       }
-      fetchWeather(city);
-    });
+      const data = await res.json();
 
-    // Load default chart
-    createChart(['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], [22, 25, 20, 18, 24, 27, 23]);
-  </script>
+      const temps = [];
+      const labels = [];
+      const forecastHTML = [];
+
+      const forecastDiv = document.getElementById('forecastCards');
+      forecastDiv.innerHTML = '';
+
+      for (let i = 0; i < data.list.length; i += 8) {
+        const item = data.list[i];
+        const date = new Date(item.dt * 1000);
+        const day = date.toLocaleDateString('en-US', { weekday: 'short' });
+        const temp = item.main.temp.toFixed(1);
+        const icon = item.weather[0].icon;
+        const description = item.weather[0].description;
+
+        temps.push(temp);
+        labels.push(day);
+
+        forecastHTML.push(`
+          <div class="card-weather">
+            <div><strong>${day}</strong></div>
+            <img src="https://openweathermap.org/img/wn/${icon}@2x.png" alt="${description}" />
+            <div class="temperature">${temp}°C</div>
+            <small>${description}</small>
+          </div>
+        `);
+      }
+
+      forecastDiv.innerHTML = forecastHTML.join('');
+      createChart(labels, temps);
+
+    } catch (err) {
+      alert('Error fetching weather data');
+      console.error(err);
+    }
+  }
+
+  document.getElementById('fetchBtn').addEventListener('click', () => {
+    const city = document.getElementById('cityInput').value.trim();
+    if (city) {
+      fetchWeather(city);
+    } else {
+      alert('Please enter a city name');
+    }
+  });
+</script>
+
+<!-- Font Awesome -->
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>
 </html>
