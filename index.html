@@ -16,39 +16,47 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      margin: 0;
+      color: #1a1a1a;
     }
 
     /* Container */
     .container {
       flex-grow: 1;
-      padding: 3rem 1rem;
       max-width: 900px;
-      background: rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.95);
       border-radius: 20px;
       box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
-      margin-top: 3rem;
-      margin-bottom: 3rem;
+      margin: 3rem auto;
+      padding: 3rem 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
     }
 
     /* Header */
     header h1 {
       font-weight: 700;
-      color: #1a1a1a;
       text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+      margin-bottom: 0.3rem;
     }
     header p {
-      font-size: 1.25rem;
+      font-size: 1.3rem;
       color: #555;
+      margin-bottom: 3rem;
+      font-weight: 500;
     }
 
-    /* Profile Card */
+    /* Profile Section */
     .profile-section {
-      background: #ffffff;
-      padding: 2rem;
+      background: #fff;
+      padding: 2rem 2.5rem;
       border-radius: 15px;
       box-shadow: 0 8px 20px rgba(74, 144, 226, 0.3);
-      text-align: center;
-      margin-bottom: 3rem;
+      max-width: 500px;
+      width: 100%;
+      margin-bottom: 4rem;
     }
     .profile-img {
       width: 160px;
@@ -56,87 +64,104 @@
       border-radius: 50%;
       border: 4px solid #4a90e2;
       object-fit: cover;
-      margin-bottom: 1rem;
+      margin: 0 auto 1.5rem;
+      display: block;
       transition: transform 0.3s ease;
     }
-    .profile-img:hover {
+    .profile-img:hover,
+    .profile-img:focus {
       transform: scale(1.05);
+      outline: none;
+      box-shadow: 0 0 10px #4a90e2;
     }
     .profile-section h2 {
       font-weight: 700;
       color: #333;
       margin-bottom: 0.25rem;
+      font-size: 1.9rem;
     }
     .profile-section p {
       color: #666;
-      font-size: 1.1rem;
+      font-size: 1.15rem;
+      font-weight: 500;
     }
 
-    /* Dashboard Buttons */
+    /* Dashboard Menu */
     .dashboard-menu {
       display: flex;
       justify-content: center;
       gap: 2rem;
       flex-wrap: wrap;
+      max-width: 700px;
+      width: 100%;
     }
     .dashboard-menu a {
-      flex: 1 1 200px;
+      flex: 1 1 280px;
       max-width: 280px;
       font-size: 1.25rem;
-      padding: 1rem 2rem;
+      padding: 1.25rem 2rem;
       border-radius: 50px;
       box-shadow: 0 8px 15px rgba(0,0,0,0.15);
       transition: all 0.3s ease;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 0.75rem;
+      gap: 0.9rem;
       font-weight: 600;
-      color: white;
       text-decoration: none;
+      user-select: none;
     }
+    /* Primary button (Weather) */
     .btn-primary {
       background: #4a90e2;
       border: none;
+      color: white;
     }
-    .btn-primary:hover {
+    .btn-primary:hover,
+    .btn-primary:focus {
       background: #357ABD;
-      box-shadow: 0 12px 20px rgba(53, 122, 189, 0.5);
+      box-shadow: 0 12px 20px rgba(53, 122, 189, 0.6);
       transform: translateY(-3px);
+      outline: none;
     }
+    /* Success button (Crypto) */
     .btn-success {
       background: #50e3c2;
       border: none;
       color: #1a1a1a;
       font-weight: 700;
     }
-    .btn-success:hover {
+    .btn-success:hover,
+    .btn-success:focus {
       background: #36b59f;
-      box-shadow: 0 12px 20px rgba(54, 181, 159, 0.5);
+      box-shadow: 0 12px 20px rgba(54, 181, 159, 0.6);
       color: white;
       transform: translateY(-3px);
+      outline: none;
     }
 
     /* Icons */
     .dashboard-menu i {
-      font-size: 1.5rem;
+      font-size: 1.7rem;
     }
 
     /* Footer */
     footer {
       text-align: center;
       color: #ffffffcc;
-      padding: 1rem 0;
+      padding: 1.2rem 0;
       font-weight: 500;
+      font-size: 0.9rem;
       background: transparent;
       margin-top: auto;
+      user-select: none;
     }
 
     /* Responsive */
     @media (max-width: 600px) {
       .container {
-        margin: 1rem;
-        padding: 2rem 1rem;
+        margin: 1rem 1.2rem 2rem;
+        padding: 2rem 1.5rem;
       }
       .dashboard-menu {
         flex-direction: column;
@@ -144,37 +169,45 @@
       .dashboard-menu a {
         max-width: 100%;
       }
+      header h1 {
+        font-size: 1.8rem;
+      }
+      header p {
+        font-size: 1.1rem;
+      }
     }
   </style>
 </head>
 <body>
 
-  <div class="container">
+  <main class="container" role="main" aria-label="Main Dashboard Page">
     <!-- Header -->
     <header class="mb-4">
-      <h1>Welcome to My Dashboard</h1>
+      <h1 tabindex="0">Welcome to My Dashboard</h1>
       <p>Your gateway to live data with API integration & CI/CD</p>
     </header>
 
     <!-- Profile Section -->
-    <section class="profile-section">
-      <img src="images/myphoto.jpg" alt="Profile Picture" class="profile-img" />
-      <h2>Nurul Alis Azwa binti Hashim</h2>
+    <section class="profile-section" aria-labelledby="profile-name">
+      <img src="images/myphoto.jpg" alt="Profile picture of Nurul Alis Azwa" class="profile-img" tabindex="0" />
+      <h2 id="profile-name">Nurul Alis Azwa binti Hashim</h2>
       <p>Internet Computing Student | Passionate about web development and data analytics</p>
     </section>
 
     <!-- Dashboard Menu -->
-    <nav class="dashboard-menu">
-      <a href="dashboard1.html" class="btn btn-primary">
-        <i class="fas fa-cloud-sun"></i> Weather Dashboard
+    <nav class="dashboard-menu" aria-label="Dashboard navigation menu">
+      <a href="dashboard1.html" class="btn btn-primary" role="button" aria-describedby="weather-desc">
+        <i class="fas fa-cloud-sun" aria-hidden="true"></i>
+        <span id="weather-desc">Weather Dashboard</span>
       </a>
-      <a href="dashboard2.html" class="btn btn-success">
-        <i class="fas fa-chart-line"></i> Crypto Dashboard
+      <a href="dashboard2.html" class="btn btn-success" role="button" aria-describedby="crypto-desc">
+        <i class="fas fa-chart-line" aria-hidden="true"></i>
+        <span id="crypto-desc">Crypto Dashboard</span>
       </a>
     </nav>
-  </div>
+  </main>
 
-  <footer>
+  <footer role="contentinfo">
     <small>© 2025 Nurul Alis Azwa | Web Dashboard Project</small>
   </footer>
 
