@@ -5,10 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Healthcare Statistics Dashboard</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-  />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
 
@@ -24,7 +21,6 @@
       align-items: center;
     }
 
-    /* Back home button */
     .btn-back {
       position: fixed;
       top: 20px;
@@ -44,6 +40,7 @@
       z-index: 1000;
       text-decoration: none;
     }
+
     .btn-back:hover,
     .btn-back:focus {
       background: rgba(255 255 255 / 0.3);
@@ -56,7 +53,7 @@
       width: 90%;
       background-color: rgba(10, 32, 63, 0.85);
       border-radius: 20px;
-      margin: 5rem auto 3rem auto;
+      margin: 6rem auto 3rem auto;
       padding: 2.5rem 2rem 3rem 2rem;
       box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
     }
@@ -74,14 +71,44 @@
     p.description {
       text-align: center;
       font-size: 1.25rem;
-      margin-bottom: 2.5rem;
+      margin-bottom: 2rem;
       color: #c7d2fe;
       font-weight: 500;
     }
 
+    .search-container {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .search-container input {
+      padding: 0.6rem 1rem;
+      width: 70%;
+      max-width: 300px;
+      border-radius: 20px;
+      border: none;
+      font-size: 1rem;
+      margin-right: 0.5rem;
+    }
+
+    .search-container button {
+      padding: 0.6rem 1.2rem;
+      border-radius: 20px;
+      border: none;
+      background-color: #53c28b;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .search-container button:hover {
+      background-color: #1ed760;
+    }
+
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit,minmax(180px,1fr));
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 1.8rem;
     }
 
@@ -89,9 +116,8 @@
       background: linear-gradient(145deg, #273c75, #192a56);
       border-radius: 18px;
       padding: 2rem 1.8rem;
-      box-shadow:
-        4px 4px 10px rgba(0, 0, 0, 0.7),
-        -4px -4px 10px rgba(255, 255, 255, 0.05);
+      box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.7),
+                  -4px -4px 10px rgba(255, 255, 255, 0.05);
       text-align: center;
       color: #e9f1ff;
       cursor: default;
@@ -100,38 +126,30 @@
       position: relative;
       overflow: hidden;
     }
-    .card:hover,
-    .card:focus {
+
+    .card:hover {
       transform: translateY(-10px);
-      box-shadow:
-        6px 6px 20px rgba(0, 0, 0, 0.9),
-        -6px -6px 20px rgba(255, 255, 255, 0.12);
-      outline: none;
+      box-shadow: 6px 6px 20px rgba(0, 0, 0, 0.9),
+                  -6px -6px 20px rgba(255, 255, 255, 0.12);
     }
+
     .card i {
       font-size: 3.2rem;
       margin-bottom: 0.6rem;
       color: #53c28b;
       filter: drop-shadow(0 0 6px #53c28b);
-      transition: color 0.3s ease;
     }
-    .card:hover i,
-    .card:focus i {
-      color: #1ed760;
-      filter: drop-shadow(0 0 8px #1ed760);
-    }
+
     .card h3 {
       margin: 0.3rem 0 1rem 0;
       font-weight: 700;
       font-size: 1.8rem;
-      letter-spacing: 0.05rem;
     }
+
     .card p {
       font-size: 1.2rem;
       font-weight: 700;
       color: #d6f8e6;
-      margin: 0;
-      user-select: text;
     }
 
     footer {
@@ -139,51 +157,27 @@
       color: #89aaffaa;
       font-size: 0.9rem;
       padding-bottom: 1.2rem;
-      user-select: none;
-      font-weight: 500;
-    }
-
-    @media (max-width: 480px) {
-      main {
-        margin: 4rem 1rem 2rem 1rem;
-        padding: 1.8rem 1rem 2.5rem 1rem;
-      }
-      h1 {
-        font-size: 2.2rem;
-      }
-      .stats-grid {
-        grid-template-columns: repeat(auto-fit,minmax(140px,1fr));
-        gap: 1.3rem;
-      }
-      .card {
-        padding: 1.4rem 1rem;
-      }
-      .card h3 {
-        font-size: 1.3rem;
-      }
-      .card p {
-        font-size: 1rem;
-      }
     }
   </style>
 </head>
 <body>
-  <a href="index.html" class="btn-back" aria-label="Back to Home">
-    <i class="fas fa-arrow-left"></i> Back Home
-  </a>
+  <a href="index.html" class="btn-back"><i class="fas fa-arrow-left"></i> Back Home</a>
 
-  <main role="main" aria-label="Healthcare statistics dashboard">
-    <h1 tabindex="0">Healthcare Statistics</h1>
-    <p class="description" tabindex="0">
-      Live Global COVID-19 Statistics powered by Disease.sh API — always up to date.
-    </p>
+  <main>
+    <h1>Healthcare Statistics</h1>
+    <p class="description">Live COVID-19 Statistics powered by Disease.sh API</p>
 
-    <div class="stats-grid" id="stats" aria-live="polite" aria-atomic="true">
-      <!-- Stats cards will be inserted here by JavaScript -->
+    <div class="search-container">
+      <input type="text" id="countryInput" placeholder="Enter country name" />
+      <button onclick="fetchCovidData()">Search</button>
+    </div>
+
+    <div class="stats-grid" id="stats">
+      <!-- Stats will be dynamically inserted -->
     </div>
   </main>
 
-  <footer role="contentinfo">
+  <footer>
     <small>© 2025 Nurul Alis Azwa | Healthcare Dashboard Project</small>
   </footer>
 
@@ -200,16 +194,20 @@
     };
 
     async function fetchCovidData() {
-      try {
-        const response = await fetch('https://disease.sh/v3/covid-19/all');
-        if (!response.ok) throw new Error('Failed to fetch data');
-        const data = await response.json();
+      const country = document.getElementById('countryInput').value.trim();
+      const url = country 
+        ? `https://disease.sh/v3/covid-19/countries/${country}`
+        : `https://disease.sh/v3/covid-19/all`;
 
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('Data not found');
+        const data = await response.json();
         displayStats(data);
       } catch (error) {
         document.getElementById('stats').innerHTML = `
           <p style="color:#ff6b6b; text-align:center; font-weight:700;">
-            Unable to load data. Please try again later.
+            ${error.message}. Please check the country name and try again.
           </p>`;
         console.error(error);
       }
@@ -240,10 +238,9 @@
 
         const card = document.createElement('div');
         card.className = 'card';
-        card.setAttribute('tabindex', '0');
 
         card.innerHTML = `
-          <i class="${iconClass}" aria-hidden="true"></i>
+          <i class="${iconClass}"></i>
           <h3>${label}</h3>
           <p>${value}</p>
         `;
@@ -252,6 +249,7 @@
       });
     }
 
+    // Load global data initially
     fetchCovidData();
   </script>
 </body>
