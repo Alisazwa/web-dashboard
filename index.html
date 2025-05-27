@@ -4,135 +4,253 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Main Dashboard - Nurul Alis Azwa</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
   />
   <style>
-    body {
-      background: linear-gradient(135deg, #1e3c72, #2a5298);
-      color: #f0f0f0;
+    /* Reset some default margins/paddings */
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      min-height: 100vh;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #e0e6f0;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    body {
       display: flex;
       flex-direction: column;
-      margin: 0;
+      min-height: 100vh;
     }
+
     main {
-      flex-grow: 1;
-      max-width: 720px;
-      background-color: rgba(0,0,0,0.5);
-      margin: 3rem auto;
-      padding: 2.5rem 2rem;
-      border-radius: 15px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.7);
+      flex: 1 0 auto;
+      max-width: 900px;
+      margin: 3rem auto 6rem;
+      padding: 3rem 2.5rem;
+      background: rgba(20, 30, 48, 0.85);
+      border-radius: 25px;
+      box-shadow: 0 12px 35px rgba(10, 20, 40, 0.7);
       text-align: center;
+      transition: box-shadow 0.4s ease;
+      backdrop-filter: saturate(180%) blur(15px);
     }
+    main:hover {
+      box-shadow: 0 18px 50px rgba(72, 126, 255, 0.9);
+    }
+
     h1 {
-      font-weight: 700;
-      font-size: 2.8rem;
-      margin-bottom: 0.3rem;
-      letter-spacing: 1.5px;
+      font-weight: 800;
+      font-size: 3.5rem;
+      letter-spacing: 2px;
+      margin-bottom: 0.4rem;
+      color: #5fc3ff;
+      text-shadow: 0 0 10px #4dabf7, 0 0 25px #4dabf7;
     }
+
     p.subtitle {
-      font-size: 1.1rem;
-      font-weight: 500;
+      font-size: 1.3rem;
+      font-weight: 600;
       margin-bottom: 3rem;
-      color: #b0c4de;
+      color: #9bc7ffcc;
+      letter-spacing: 0.06em;
+      font-style: italic;
     }
+
     img.profile-pic {
-      width: 150px;
-      height: 150px;
+      width: 170px;
+      height: 170px;
       border-radius: 50%;
-      border: 3px solid #4dabf7;
+      border: 4px solid #5fc3ff;
       object-fit: cover;
-      margin-bottom: 1.5rem;
-      box-shadow: 0 0 15px #4dabf7aa;
-      transition: transform 0.3s ease;
+      margin-bottom: 2rem;
+      box-shadow: 0 0 30px #5fc3ffaa;
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      cursor: pointer;
     }
-    img.profile-pic:hover {
-      transform: scale(1.07);
-      box-shadow: 0 0 25px #82c7ff;
+    img.profile-pic:hover,
+    img.profile-pic:focus {
+      outline: none;
+      transform: scale(1.12);
+      box-shadow: 0 0 40px #82c7ffcc, 0 0 60px #4dabf7cc;
     }
+
     .profile-info {
-      margin-bottom: 2.5rem;
-      font-size: 1.15rem;
-      line-height: 1.5;
-      color: #dce6f1;
+      margin-bottom: 3rem;
+      font-size: 1.25rem;
+      line-height: 1.6;
+      color: #c8d3e8;
+      user-select: none;
     }
     .profile-info strong {
-      color: #82c7ff;
+      color: #7ec9ff;
+      font-weight: 700;
     }
+
     .about-me {
-      background-color: rgba(255,255,255,0.1);
-      border-radius: 10px;
-      padding: 1.5rem;
-      margin-bottom: 3rem;
-      font-size: 1.05rem;
-      line-height: 1.6;
+      background-color: rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 2rem;
+      margin-bottom: 3.5rem;
+      font-size: 1.1rem;
+      line-height: 1.7;
+      color: #d1d9f4;
+      box-shadow: 0 6px 28px rgba(20, 40, 70, 0.5);
       text-align: justify;
-      color: #e6e9f0;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+      user-select: text;
+      transition: background-color 0.4s ease;
     }
+    .about-me:hover {
+      background-color: rgba(255, 255, 255, 0.15);
+    }
+
     nav.dashboard-menu {
       display: flex;
       justify-content: center;
-      gap: 1.8rem;
+      gap: 2.5rem;
       flex-wrap: wrap;
+      margin-bottom: 1rem;
     }
+
     nav.dashboard-menu a {
-      background-color: #4dabf7;
-      color: #fff;
-      font-weight: 600;
-      padding: 1rem 2.2rem;
-      border-radius: 40px;
-      box-shadow: 0 6px 18px #3a8ddecc;
+      background: linear-gradient(135deg, #4dabf7, #1c6ef2);
+      color: white;
+      font-weight: 700;
+      padding: 1.15rem 2.7rem;
+      border-radius: 50px;
+      box-shadow: 0 8px 20px #3a8ddecc;
       text-decoration: none;
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       display: flex;
       align-items: center;
-      gap: 0.8rem;
-      transition: background-color 0.25s ease, box-shadow 0.25s ease;
+      gap: 1rem;
+      transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
       user-select: none;
+      cursor: pointer;
+      outline-offset: 3px;
+      outline-color: transparent;
+      outline-style: solid;
     }
-    nav.dashboard-menu a:hover,
-    nav.dashboard-menu a:focus {
-      background-color: #6bb4ff;
-      box-shadow: 0 10px 30px #64a1f5cc;
-      outline: none;
+    nav.dashboard-menu a:focus-visible {
+      outline-color: #8ac0ff;
+      box-shadow: 0 0 30px #9dd0ffcc;
+    }
+    nav.dashboard-menu a:hover {
+      background: linear-gradient(135deg, #6bb4ff, #3a92f5);
+      box-shadow: 0 12px 30px #64a1f5cc;
+      transform: translateY(-3px);
     }
     nav.dashboard-menu a i {
-      font-size: 1.5rem;
+      font-size: 1.7rem;
+      filter: drop-shadow(0 0 1px rgba(0,0,0,0.3));
     }
+
+    nav.dashboard-menu a.healthcare {
+      background: linear-gradient(135deg, #50e3c2, #0dc9a7);
+      box-shadow: 0 8px 20px #33c8aacc;
+    }
+    nav.dashboard-menu a.healthcare:hover {
+      background: linear-gradient(135deg, #72f0d1, #1ad9b4);
+      box-shadow: 0 12px 30px #2ec4a3cc;
+    }
+
     footer {
+      flex-shrink: 0;
       text-align: center;
-      color: #b0c4decc;
-      padding: 1rem 0;
-      font-size: 0.9rem;
+      color: #9ab9d6cc;
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 1rem 0 2rem;
       user-select: none;
-      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-shadow: 0 0 5px rgba(40, 70, 120, 0.2);
+      background: linear-gradient(90deg, #0f2027 0%, #203a43 100%);
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+      left: 0;
+      z-index: 1000;
+    }
+
+    /* Visually hidden for screen readers */
+    .visually-hidden {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      padding: 0 !important;
+      margin: -1px !important;
+      overflow: hidden !important;
+      clip: rect(0, 0, 0, 0) !important;
+      white-space: nowrap !important;
+      border: 0 !important;
+    }
+
+    /* Responsive */
+    @media (max-width: 720px) {
+      main {
+        margin: 2rem 1.5rem 6rem;
+        padding: 2.5rem 2rem;
+      }
+      h1 {
+        font-size: 2.6rem;
+      }
+      p.subtitle {
+        font-size: 1.15rem;
+      }
+      nav.dashboard-menu {
+        gap: 1.5rem;
+      }
+      nav.dashboard-menu a {
+        font-size: 1.15rem;
+        padding: 1rem 2rem;
+      }
+      img.profile-pic {
+        width: 140px;
+        height: 140px;
+        margin-bottom: 1.8rem;
+      }
     }
     @media (max-width: 480px) {
       main {
-        margin: 2rem 1rem;
+        margin: 1.5rem 1rem 6rem;
         padding: 2rem 1.2rem;
+        border-radius: 20px;
       }
       h1 {
-        font-size: 2rem;
+        font-size: 2.2rem;
+      }
+      p.subtitle {
+        font-size: 1.05rem;
       }
       nav.dashboard-menu {
         flex-direction: column;
+        gap: 1.2rem;
       }
       nav.dashboard-menu a {
         width: 100%;
         justify-content: center;
       }
+      img.profile-pic {
+        width: 130px;
+        height: 130px;
+        margin-bottom: 1.5rem;
+      }
     }
   </style>
 </head>
 <body>
-  <main role="main" aria-label="Main dashboard page">
+  <main role="main" aria-label="Main dashboard page" tabindex="-1">
     <h1 tabindex="0">My Dashboard</h1>
     <p class="subtitle">Live Data Dashboards by Nurul Alis Azwa</p>
 
@@ -162,7 +280,7 @@
       <a href="dashboard1.html" role="button" aria-describedby="weather-desc">
         <i class="fas fa-cloud-sun"></i> Weather Monitoring
       </a>
-      <a href="dashboard2.html" role="button" aria-describedby="healthcare-desc" style="background-color:#50e3c2; box-shadow:0 6px 18px #33c8aacc;">
+      <a href="dashboard2.html" role="button" aria-describedby="healthcare-desc" class="healthcare">
         <i class="fas fa-heartbeat"></i> Healthcare Statistics
       </a>
     </nav>
