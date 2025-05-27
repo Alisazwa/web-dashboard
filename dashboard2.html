@@ -6,11 +6,10 @@
   <title>Healthcare Statistics Dashboard</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   <style>
-    /* Dark theme base */
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #121212;
-      color: #eee;
+      background-color: #2f3e4e;  /* medium dark blue-gray, tak terlalu gelap */
+      color: #ddd;
       margin: 0;
       padding: 30px 40px;
       min-height: 100vh;
@@ -23,62 +22,70 @@
       color: #90caf9;
       font-size: 2.8em;
       margin-bottom: 30px;
-      text-shadow: 0 0 8px #42a5f5;
+      text-shadow: 0 0 6px #5c9ded;
       user-select: none;
     }
 
     .top-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      position: relative;
+      height: 50px;
       margin-bottom: 30px;
-      gap: 20px;
-      flex-wrap: wrap;
     }
 
     .back-button {
-      background-color: #1e88e5;
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: #4a90e2;
       border: none;
       padding: 12px 25px;
       border-radius: 8px;
       font-weight: 600;
       color: #fff;
       cursor: pointer;
-      box-shadow: 0 4px 8px rgba(30, 136, 229, 0.6);
+      box-shadow: 0 4px 8px rgba(74, 144, 226, 0.6);
       transition: background-color 0.3s ease;
       user-select: none;
-      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 16px;
     }
 
     .back-button:hover {
-      background-color: #1565c0;
-      box-shadow: 0 6px 12px rgba(21, 101, 192, 0.8);
+      background-color: #357abd;
+      box-shadow: 0 6px 12px rgba(53, 122, 189, 0.8);
     }
 
     select {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       appearance: none;
       -webkit-appearance: none;
       -moz-appearance: none;
-      background-color: #1e1e1e;
+      background-color: #406080;
       border: 1.5px solid #90caf9;
       color: #eee;
       font-size: 16px;
-      padding: 12px 40px 12px 15px;
+      padding: 10px 40px 10px 15px;
       border-radius: 8px;
       cursor: pointer;
-      box-shadow: 0 0 10px #42a5f5 inset;
-      position: relative;
-      min-width: 240px;
+      box-shadow: 0 0 8px #6fa6df inset;
+      min-width: 220px;
       user-select: none;
       transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      z-index: 10;
     }
 
-    /* Custom arrow on select */
     select::-ms-expand {
       display: none;
     }
+    /* Arrow using FontAwesome */
     select::after {
-      content: '\f078'; /* FontAwesome down chevron */
+      content: '\f078';
       font-family: 'Font Awesome 6 Free';
       font-weight: 900;
       position: absolute;
@@ -91,8 +98,8 @@
     }
 
     select:hover, select:focus {
-      border-color: #42a5f5;
-      box-shadow: 0 0 15px #42a5f5 inset;
+      border-color: #a3c6f9;
+      box-shadow: 0 0 12px #a3c6f9 inset;
       outline: none;
     }
 
@@ -105,56 +112,62 @@
     }
 
     .card {
-      background-color: #1e1e1e;
+      background-color: #3e506a;
       border-radius: 18px;
       padding: 25px 20px;
-      box-shadow: 0 6px 20px rgba(30, 136, 229, 0.4);
+      box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
       text-align: center;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       user-select: none;
+      color: #e1eaff;
     }
 
     .card:hover {
       transform: translateY(-6px);
-      box-shadow: 0 14px 30px rgba(30, 136, 229, 0.7);
+      box-shadow: 0 14px 30px rgba(74, 144, 226, 0.7);
     }
 
     .card i {
       font-size: 38px;
       margin-bottom: 12px;
-      color: #42a5f5;
-      text-shadow: 0 0 6px #42a5f5;
+      color: #7bb0f7;
+      text-shadow: 0 0 6px #7bb0f7;
     }
 
     .card h3 {
       font-size: 20px;
       margin: 12px 0 8px;
-      color: #bbdefb;
+      color: #c8d6fc;
     }
 
     .card p {
       font-size: 24px;
       font-weight: 700;
-      color: #81c784; /* greenish */
-      text-shadow: 0 0 5px #81c784;
+      color: #a0d468; /* soft green */
+      text-shadow: 0 0 5px #a0d468;
     }
 
     /* Responsive */
     @media (max-width: 600px) {
       .top-bar {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      select {
-        min-width: auto;
-        width: 100%;
-        margin-top: 12px;
+        height: auto;
+        padding: 10px 0;
       }
 
       .back-button {
+        position: static;
+        transform: none;
         width: 100%;
-        padding: 14px 0;
+        margin-bottom: 12px;
+        justify-content: center;
+      }
+
+      select {
+        position: static;
+        transform: none;
+        width: 100%;
+        min-width: unset;
+        z-index: auto;
       }
     }
   </style>
@@ -166,6 +179,7 @@
     <button class="back-button" onclick="window.location.href='index.html'">
       <i class="fas fa-arrow-left"></i> Back Home
     </button>
+
     <select id="countrySelect" onchange="fetchCovidData()">
       <option value="">Select Country</option>
     </select>
@@ -255,10 +269,9 @@
       });
     }
 
-    // On page load
     window.onload = async () => {
       await populateCountries();
-      fetchCovidData(); // default global stats
+      fetchCovidData();
     };
   </script>
 </body>
