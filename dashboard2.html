@@ -2,126 +2,178 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Healthcare Statistics Dashboard</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   <style>
+    /* Reset & base */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to right, #c9d6ff, #e2e2e2);
-      margin: 0;
-      padding: 30px;
-      color: #222;
+      margin: 0; padding: 2rem;
+      background: #f7f9fc;
+      color: #2c3e50;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
 
     h1 {
       text-align: center;
-      margin-bottom: 20px;
-      color: #1a237e;
-      font-size: 2.8em;
-      text-shadow: 1px 1px 3px #aaa;
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      color: #34495e;
+      font-weight: 700;
     }
 
+    /* Top bar */
     .top-bar {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 15px;
-      margin-bottom: 30px;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
     }
 
-    .back-button {
-      padding: 12px 24px;
-      background-color: #3949ab;
-      color: white;
+    button.back-button {
+      background-color: #2980b9;
       border: none;
-      border-radius: 10px;
-      font-size: 16px;
-      font-weight: bold;
+      border-radius: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      color: white;
       cursor: pointer;
-      transition: background-color 0.3s ease;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: background-color 0.25s ease;
+      box-shadow: 0 4px 8px rgb(41 128 185 / 0.3);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    button.back-button:hover {
+      background-color: #1f618d;
     }
 
-    .back-button:hover {
-      background-color: #1a237e;
+    select#countrySelect {
+      font-size: 1rem;
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      border: 1.5px solid #ccc;
+      min-width: 220px;
+      max-width: 320px;
+      box-shadow: 0 1px 5px rgba(0,0,0,0.1);
+      transition: border-color 0.25s ease;
     }
-
-    select {
-      padding: 12px;
-      font-size: 16px;
-      border-radius: 10px;
-      border: 1px solid #bbb;
+    select#countrySelect:focus {
       outline: none;
-      width: 280px;
-      background-color: white;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      border-color: #2980b9;
+      box-shadow: 0 0 8px #2980b9aa;
     }
 
+    /* Stats container */
     #stats {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 20px;
-      padding: 10px;
-      margin-top: 20px;
+      gap: 1.5rem;
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
+    /* Cards */
     .card {
-      background: white;
-      border-radius: 18px;
-      padding: 25px 20px;
-      box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+      background-color: white;
+      border-radius: 1rem;
+      padding: 2rem 1.5rem;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.07);
       text-align: center;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: default;
+      user-select: none;
     }
-
     .card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      transform: translateY(-8px);
+      box-shadow: 0 12px 25px rgba(0,0,0,0.12);
     }
 
     .card i {
-      font-size: 34px;
-      margin-bottom: 10px;
-      color: #1a237e;
+      font-size: 2.6rem;
+      color: #2980b9;
+      margin-bottom: 0.75rem;
     }
 
     .card h3 {
-      font-size: 19px;
-      margin: 10px 0 5px;
-      color: #333;
+      font-size: 1.25rem;
+      color: #34495e;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
     }
 
     .card p {
-      font-size: 22px;
-      font-weight: bold;
-      color: #2e7d32;
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: #27ae60;
+      letter-spacing: 0.02em;
     }
 
-    @media (max-width: 600px) {
-      .card {
-        padding: 20px 15px;
-      }
+    /* Error and loading text */
+    .message {
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #e74c3c;
+      margin-top: 3rem;
+    }
 
-      select {
-        width: 90%;
+    /* Loading spinner */
+    .spinner {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #2980b9;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      margin: 3rem auto;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 480px) {
+      body {
+        padding: 1rem;
+      }
+      h1 {
+        font-size: 2rem;
+      }
+      select#countrySelect {
+        min-width: 180px;
+        max-width: 100%;
       }
     }
   </style>
 </head>
 <body>
-  <h1>Healthcare Statistics</h1>
+
+  <h1>Healthcare Statistics Dashboard</h1>
 
   <div class="top-bar">
-    <button class="back-button" onclick="window.location.href='index.html'">
-      ← Back Home
+    <button class="back-button" aria-label="Back to home" onclick="window.location.href='index.html'">
+      <i class="fas fa-arrow-left"></i> Back Home
     </button>
-    <select id="countrySelect" onchange="fetchCovidData()">
-      <option value="">Select Country</option>
+
+    <select id="countrySelect" aria-label="Select Country" onchange="fetchCovidData()">
+      <option value="">🌍 Global Data</option>
     </select>
   </div>
 
-  <div id="stats"></div>
+  <div id="stats">
+    <div class="spinner" id="loadingSpinner" aria-hidden="true"></div>
+  </div>
 
   <script>
     const icons = {
@@ -139,45 +191,42 @@
       const select = document.getElementById('countrySelect');
       try {
         const res = await fetch('https://disease.sh/v3/covid-19/countries');
+        if (!res.ok) throw new Error('Failed to fetch countries');
         const countries = await res.json();
         countries.sort((a, b) => a.country.localeCompare(b.country));
-        countries.forEach((c) => {
-          const opt = document.createElement('option');
-          opt.value = c.country;
-          opt.textContent = c.country;
-          select.appendChild(opt);
+        countries.forEach(({ country }) => {
+          const option = document.createElement('option');
+          option.value = country;
+          option.textContent = country;
+          select.appendChild(option);
         });
       } catch (err) {
-        console.error('Failed to load countries:', err);
+        console.error('Error loading countries:', err);
+        const option = document.createElement('option');
+        option.textContent = 'Failed to load countries';
+        option.disabled = true;
+        select.appendChild(option);
       }
     }
 
-    async function fetchCovidData() {
-      const selectedCountry = document.getElementById('countrySelect').value;
-      const url = selectedCountry
-        ? `https://disease.sh/v3/covid-19/countries/${selectedCountry}`
-        : `https://disease.sh/v3/covid-19/all`;
-
-      try {
-        const response = await fetch(url);
-        if (!response.ok) throw new Error('Data not found');
-        const data = await response.json();
-        displayStats(data);
-      } catch (error) {
-        document.getElementById('stats').innerHTML = `
-          <p style="color:#e53935; text-align:center; font-weight:700;">
-            ${error.message}. Please try again.
-          </p>`;
-      }
+    function showLoading(show) {
+      const spinner = document.getElementById('loadingSpinner');
+      spinner.style.display = show ? 'block' : 'none';
     }
 
     function formatNumber(num) {
+      if (typeof num !== 'number') return '-';
       return num.toLocaleString();
     }
 
     function displayStats(data) {
       const statsContainer = document.getElementById('stats');
-      statsContainer.innerHTML = '';
+      statsContainer.innerHTML = ''; // clear
+
+      if (!data || Object.keys(data).length === 0) {
+        statsContainer.innerHTML = `<p class="message">No data available</p>`;
+        return;
+      }
 
       const statsToShow = [
         { key: 'cases', label: 'Total Cases' },
@@ -197,7 +246,7 @@
         const card = document.createElement('div');
         card.className = 'card';
         card.innerHTML = `
-          <i class="${iconClass}"></i>
+          <i class="${iconClass}" aria-hidden="true"></i>
           <h3>${label}</h3>
           <p>${value}</p>
         `;
@@ -205,11 +254,34 @@
       });
     }
 
+    async function fetchCovidData() {
+      const selectedCountry = document.getElementById('countrySelect').value;
+      const url = selectedCountry
+        ? `https://disease.sh/v3/covid-19/countries/${encodeURIComponent(selectedCountry)}`
+        : `https://disease.sh/v3/covid-19/all`;
+
+      showLoading(true);
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('Data not found');
+        const data = await response.json();
+        displayStats(data);
+      } catch (error) {
+        const statsContainer = document.getElementById('stats');
+        statsContainer.innerHTML = `
+          <p class="message" role="alert">${error.message}. Please try again.</p>
+        `;
+      } finally {
+        showLoading(false);
+      }
+    }
+
     // On page load
     window.onload = async () => {
       await populateCountries();
-      fetchCovidData(); // default global
+      fetchCovidData(); // load global data by default
     };
   </script>
+
 </body>
 </html>
