@@ -7,169 +7,134 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   <style>
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #2f3e4e;  /* medium dark blue-gray, tak terlalu gelap */
-      color: #ddd;
-      margin: 0;
-      padding: 30px 40px;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #374151; /* soft dark grey */
+  color: #e5e7eb; /* light grey */
+  margin: 0;
+  padding: 30px 40px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 
-    h1 {
-      text-align: center;
-      color: #90caf9;
-      font-size: 2.8em;
-      margin-bottom: 30px;
-      text-shadow: 0 0 6px #5c9ded;
-      user-select: none;
-    }
+h1 {
+  text-align: center;
+  color: #60a5fa; /* soft blue */
+  font-size: 2.5em;
+  margin-bottom: 40px;
+  user-select: none;
+}
 
-    .top-bar {
-      position: relative;
-      height: 50px;
-      margin-bottom: 30px;
-    }
+.top-bar {
+  position: relative;
+  height: 48px;
+  margin-bottom: 30px;
+}
 
-    .back-button {
-      position: absolute;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      background-color: #4a90e2;
-      border: none;
-      padding: 12px 25px;
-      border-radius: 8px;
-      font-weight: 600;
-      color: #fff;
-      cursor: pointer;
-      box-shadow: 0 4px 8px rgba(74, 144, 226, 0.6);
-      transition: background-color 0.3s ease;
-      user-select: none;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 16px;
-    }
+.back-button {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  background-color: #2563eb; /* blue */
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
+  user-select: none;
+}
 
-    .back-button:hover {
-      background-color: #357abd;
-      box-shadow: 0 6px 12px rgba(53, 122, 189, 0.8);
-    }
+.back-button:hover {
+  background-color: #1e40af; /* darker blue */
+}
 
-    select {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      appearance: none;
-      -webkit-appearance: none;
-      -moz-appearance: none;
-      background-color: #406080;
-      border: 1.5px solid #90caf9;
-      color: #eee;
-      font-size: 16px;
-      padding: 10px 40px 10px 15px;
-      border-radius: 8px;
-      cursor: pointer;
-      box-shadow: 0 0 8px #6fa6df inset;
-      min-width: 220px;
-      user-select: none;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
-      z-index: 10;
-    }
+select {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #4b5563; /* medium gray */
+  border: 1px solid #60a5fa; /* soft blue border */
+  color: #f9fafb;
+  padding: 9px 15px;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  user-select: none;
+  min-width: 180px;
+  box-shadow: none;
+  transition: border-color 0.3s ease;
+}
 
-    select::-ms-expand {
-      display: none;
-    }
-    /* Arrow using FontAwesome */
-    select::after {
-      content: '\f078';
-      font-family: 'Font Awesome 6 Free';
-      font-weight: 900;
-      position: absolute;
-      right: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      pointer-events: none;
-      color: #90caf9;
-      font-size: 14px;
-    }
+select:hover, select:focus {
+  border-color: #3b82f6;
+  outline: none;
+}
 
-    select:hover, select:focus {
-      border-color: #a3c6f9;
-      box-shadow: 0 0 12px #a3c6f9 inset;
-      outline: none;
-    }
+#stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+  gap: 24px;
+  margin-top: 10px;
+}
 
-    #stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 25px;
-      margin-top: 10px;
-      padding-bottom: 40px;
-    }
+.card {
+  background-color: #1f2937; /* dark slate */
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  text-align: center;
+  color: #d1d5db; /* light gray */
+  user-select: none;
+  transition: box-shadow 0.3s ease;
+}
 
-    .card {
-      background-color: #3e506a;
-      border-radius: 18px;
-      padding: 25px 20px;
-      box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
-      text-align: center;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      user-select: none;
-      color: #e1eaff;
-    }
+.card:hover {
+  box-shadow: 0 8px 24px rgba(37,99,235,0.6); /* blue glow on hover */
+}
 
-    .card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 14px 30px rgba(74, 144, 226, 0.7);
-    }
+.card i {
+  font-size: 34px;
+  margin-bottom: 12px;
+  color: #60a5fa;
+}
 
-    .card i {
-      font-size: 38px;
-      margin-bottom: 12px;
-      color: #7bb0f7;
-      text-shadow: 0 0 6px #7bb0f7;
-    }
+.card h3 {
+  margin: 8px 0 6px;
+  font-weight: 600;
+}
 
-    .card h3 {
-      font-size: 20px;
-      margin: 12px 0 8px;
-      color: #c8d6fc;
-    }
+.card p {
+  font-size: 22px;
+  font-weight: 700;
+  color: #a5b4fc; /* soft purple */
+}
 
-    .card p {
-      font-size: 24px;
-      font-weight: 700;
-      color: #a0d468; /* soft green */
-      text-shadow: 0 0 5px #a0d468;
-    }
+@media (max-width: 600px) {
+  .top-bar {
+    height: auto;
+    padding: 10px 0;
+  }
 
-    /* Responsive */
-    @media (max-width: 600px) {
-      .top-bar {
-        height: auto;
-        padding: 10px 0;
-      }
+  .back-button {
+    position: static;
+    transform: none;
+    width: 100%;
+    margin-bottom: 12px;
+    text-align: center;
+  }
 
-      .back-button {
-        position: static;
-        transform: none;
-        width: 100%;
-        margin-bottom: 12px;
-        justify-content: center;
-      }
+  select {
+    position: static;
+    transform: none;
+    width: 100%;
+    min-width: unset;
+  }
+}
 
-      select {
-        position: static;
-        transform: none;
-        width: 100%;
-        min-width: unset;
-        z-index: auto;
-      }
-    }
   </style>
 </head>
 <body>
